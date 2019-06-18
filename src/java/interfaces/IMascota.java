@@ -11,10 +11,13 @@ public interface IMascota {
     public abstract void guardarMascota(Mascota mascota);
 
     //listar todas
-    public abstract ArrayList<Mascota> listarMascotas(Session sesion);
+    public abstract ArrayList<Mascota> listarMascotas();
 
     //actualizar
     public abstract void actualizarMascota(Mascota mascota);
+    
+    //
+    public abstract boolean eliminarMascota(Mascota mascota);
 
     // listar por datos
     public abstract List<Mascota> listarMascotaDatosRaza(Session session);

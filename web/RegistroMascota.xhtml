@@ -1,29 +1,58 @@
 <?xml version="1.0" encoding="UTF-8"?>
-<!--
-To change this license header, choose License Headers in Project Properties.
-To change this template file, choose Tools | Templates
-and open the template in the editor.
--->
-
 <!DOCTYPE html>
-<html xmlns:p="http://primefaces.org/ui" xmlns:h="http://xmlns.jcp.org/jsf/html">
-
+<html xmlns:p="http://primefaces.org/ui" xmlns:h="http://xmlns.jcp.org/jsf/html" xmlns:f="http://xmlns.jcp.org/jsf/core">
     <h:head>
-        <title>TODO supply a title</title>
-        <meta name="viewport" content="width=device-width, initial-scale=1.0"/>
+        <title>Veterinaria</title>
+        <meta http-equiv="Content-Type" content="text/html; charset=UTF-8"/>
     </h:head>
-    <body>
-    <p:growl id="msj" autoUpdate="true" />
-    <h:form>
-        <p:outputLabel value="ID" />
-        <p:inputText value="#{mascotaBean.mascota.idMascota}" required="true"  /> 
-        <p:outputLabel value="Nombre Mascota" />
-        <p:inputText value="#{mascotaBean.mascota.nombreMascota}" required="true" />
-        <p:outputLabel value="Nombre Dueño" />
-        <p:inputText value="#{mascotaBean.mascota.nombreCliente}" required="true" />
-        <p:outputLabel value="Raza" />
-        <p:inputText value="#{mascotaBean.mascota.raza}" required="true" />
-        <p:commandButton value="Registrar" action="#{mascotaBean.guardar()} />
-    </h:form>
-</body>
+    <h:body> 
+        <p:growl id="msj" autoUpdate="true" />
+        <div align="center">
+            <h:form id="formMascota"> 
+                <p:panel style="width: 35%">
+                    <f:facet name="header">
+                        <column>
+                            <p:outputLabel value="MANTENIMIENTO MASCOTA"/>
+                        </column>                   
+                    </f:facet>
+                    <p:panelGrid columns="2">
+                        <p:outputLabel value="ID"/>
+                        <p:inputText value="#{mascotaBean.mascota.idMascota}" required="true"  />
+                        <p:outputLabel value="Nombre Mascota" />
+                        <p:inputText value="#{mascotaBean.mascota.nombreMascota}" required="true" />
+                        <p:outputLabel value="Nombre Dueño" />
+                        <p:inputText value="#{mascotaBean.mascota.nombreCliente}" required="true" />
+                        <p:outputLabel value="Raza" />
+                        <p:inputText value="#{mascotaBean.mascota.raza}" required="true" />
+                    </p:panelGrid>
+                    <p:commandButton value="Registrar" action="#{mascotaBean.guardar()}" update=":formData:DataTableMascota" />
+                    <p:commandButton value="Actualizar" action="#{mascotaBean.actualizarMascota()}" update=":formData:DataTableMascota,:formMascota" />
+                    
+                </p:panel>
+            </h:form>
+
+            <!--//agregar tabla para la lista-->
+            <h:form id="formData">
+                <p:dataTable rowKey="#{mascota.idMascota}" selection="#{mascotaBean.mascota}" selectionMode="single" id="DataTableMascota" style="width: 50%" value="#{mascotaBean.listar()}" var="mascota">
+                    <p:ajax event="rowSelect" update=":formMascota"/>
+                    <p:column headerText="CODIGO" style="background-color: darksalmon">
+                        <p:outputLabel value="#{mascota.idMascota}"/>  
+                    </p:column>                
+                    <p:column headerText="MASCOTA">
+                        <p:outputLabel value="#{mascota.nombreMascota}"/>
+                    </p:column>                
+                    <p:column headerText="CLIENTE" >
+                        <p:outputLabel value="#{mascota.nombreCliente}"/>
+                    </p:column>                
+                    <p:column headerText="RAZA">
+                        <p:outputLabel value="#{mascota.raza}"/>
+                    </p:column>
+
+                    <p:column>
+                        <p:commandButton value="Eliminar" action="#{mascotaBean.eliminarMascota()}" update=":formData:DataTableMascota"/>
+                    </p:column>
+                </p:dataTable>
+            </h:form>
+        </div>
+    </h:body>
 </html>
